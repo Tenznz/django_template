@@ -7,7 +7,9 @@
 <body>
     <H1>Index page</H1>
     <form action="" method="post">
+        {% csrf_token %}
         {{form}}
+        <input type="submit">
     </form>
 </body>
 </html>

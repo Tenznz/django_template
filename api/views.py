@@ -6,17 +6,24 @@ from .forms import UserForm
 
 
 def index(request):
-    return render(request, 'index.html')
+    try:
+        form = UserForm()
+        if request.method == 'POST':
+            print(request.POST)
+            form = UserForm(request.POST)
+            if form.is_valid():
+                form.save()
+        context = {'form': form}
+        return render(request, 'index.html', context)
+    except Exception as e:
+        return HttpResponse(request, str(e))
 
 
-class StudentForm(APIView):
-    def get(self, request):
-        try:
-            # serializer = UserSerializer(data=request.data)
-            # serializer.is_valid(raise_exception=True)
-            # serializer.save()
-            form = UserForm()
-            context = {'form': form}
-            return render(request, 'index.html', context)
-        except Exception as e:
-            return HttpResponse(request, str(e))
+# class StudentForm(APIView):
+#     def get(self, request):
+#         try:
+#             form = UserForm()
+#             context = {'form': form}
+#             return render(request, 'index.html', context)
+#         except Exception as e:
+#             return HttpResponse(request, str(e))
